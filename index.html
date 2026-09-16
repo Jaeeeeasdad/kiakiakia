@@ -12,7 +12,7 @@
 <body>
 
 <div id="petal-field"></div>
-<button id="musicFab" class="music-fab" type="button" aria-label="play or pause our song">
+<button id="musicFab" class="music-fab" type="button" aria-label="play or pause our song" aria-pressed="false">
   <span class="music-fab-icon">♪</span>
 </button>
 
@@ -49,7 +49,7 @@
   <section class="letter">
     <p class="letter-heading">to my future RN,</p>
 
-    <p>Good luck, my future RN. This is one of the small steps towards your success — the future that you always talked about, and slowly, you're reaching it. Life may have been difficult, so were the challenges it awarded upon you. But this time, you have me, and I will make sure to ease those burdens. You deserve all the gentleness and kindness this world can offer, and I'll make sure to provide them in every way.</p>
+    <p>Good luck, my future RN. This is one of the small steps towards your success — the future that you always talked about, and slowly, you're reaching it. Life may have been difficult, so we have to keep moving forward.</p>
 
     <p><span class="padayon-line">Padayon, my love</span> — to you who have continued on this path despite the hardship. I believe in you, and I trust that you are the best in what you're doing.</p>
 
@@ -65,12 +65,12 @@
     <div class="song-note">♪</div>
     <div class="song-text">
       <h3>our song</h3>
-      <p id="songStatus">add the song that reminds you of us</p>
+      <p id="songStatus">press play if your browser blocks autoplay</p>
     </div>
     <div class="song-controls">
       <label for="song-input"><span class="song-btn" role="button">choose a different song</span></label>
       <input type="file" id="song-input" accept="audio/*">
-      <audio id="audioPlayer" loop autoplay playsinline src="song.mp3"></audio>
+      <audio id="audioPlayer" loop autoplay playsinline preload="auto" src="SZA%20-%20Snooze%20feat.%20Justin%20Bieber%20(Music%20Video).mp3"></audio>
     </div>
   </section>
 
