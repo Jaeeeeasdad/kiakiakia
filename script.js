@@ -29,12 +29,15 @@
   }
 })();
 
-// ---------- Photo: auto-loads photo.jpg from the same folder ----------
+// ---------- Photo: loads the repository photo by default ----------
 (function(){
   const input = document.getElementById('photo-input');
   const img = document.getElementById('photoImg');
   const placeholder = document.getElementById('photoPlaceholder');
   const changeBtn = document.getElementById('changePhotoBtn');
+
+  // Keep the default image connected to the photo.jpg asset in this repository.
+  img.src = encodeURI('photo.jpg');
 
   function showImage(src){
     img.src = src;
@@ -49,12 +52,10 @@
     changeBtn.style.display = 'none';
   }
 
-  // photo.jpg sitting next to this file loads automatically on open
   img.addEventListener('load', function(){ showImage(img.src); });
   img.addEventListener('error', showPlaceholder);
   if(img.complete && img.naturalWidth > 0){ showImage(img.src); }
 
-  // manual picker still works, and overrides photo.jpg for this visit
   input.addEventListener('change', function(e){
     const file = e.target.files[0];
     if(!file) return;
@@ -71,19 +72,22 @@
 
   document.getElementById('photoSlot').addEventListener('click', function(e){
     if(img.style.display === 'block'){
-      // already showing a photo: clicking the frame itself does nothing,
-      // use the "change photo" button instead
       e.preventDefault();
     }
   });
 })();
 
-// ---------- Song: auto-loads song.mp3 and plays it in the background ----------
+// ---------- Song: loads the repository MP3 by default ----------
 (function(){
   const input = document.getElementById('song-input');
   const player = document.getElementById('audioPlayer');
   const status = document.getElementById('songStatus');
   const fab = document.getElementById('musicFab');
+  const defaultSong = 'SZA - Snooze feat. Justin Bieber (Music Video).mp3';
+
+  // The repository file is not named song.mp3, so connect the player to its real asset.
+  player.src = encodeURI(defaultSong);
+  player.load();
 
   function setPlayingUI(isPlaying){
     fab.classList.toggle('is-paused', !isPlaying);
@@ -94,7 +98,6 @@
     if(p && p.catch){
       p.then(function(){ setPlayingUI(true); })
        .catch(function(){
-          // browser blocked autoplay until the visitor interacts with the page
           setPlayingUI(false);
           const startOnce = function(){
             player.play().then(function(){ setPlayingUI(true); }).catch(function(){});
@@ -103,7 +106,7 @@
           };
           document.addEventListener('click', startOnce);
           document.addEventListener('touchstart', startOnce);
-       });
+        });
     }
   }
 
@@ -118,16 +121,13 @@
   player.addEventListener('play', function(){ setPlayingUI(true); });
   player.addEventListener('pause', function(){ setPlayingUI(false); });
 
-  // if metadata already loaded before this script ran, kick things off now
   if(player.readyState >= 1){ tryAutoplay(); }
 
-  // floating note toggles play/pause
   fab.addEventListener('click', function(){
     if(player.paused){ player.play().catch(function(){}); }
     else{ player.pause(); }
   });
 
-  // manual picker still works, and overrides song.mp3 for this visit
   input.addEventListener('change', function(e){
     const file = e.target.files[0];
     if(!file) return;
