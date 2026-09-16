@@ -1,3 +1,7 @@
+// Remove the unused music controls from the page.
+document.querySelector('.song-card')?.remove();
+document.getElementById('musicFab')?.remove();
+
 // ---------- Falling petals ----------
 (function(){
   const field = document.getElementById('petal-field');
@@ -75,66 +79,5 @@
       // use the "change photo" button instead
       e.preventDefault();
     }
-  });
-})();
-
-// ---------- Song: auto-loads song.mp3 and plays it in the background ----------
-(function(){
-  const input = document.getElementById('song-input');
-  const player = document.getElementById('audioPlayer');
-  const status = document.getElementById('songStatus');
-  const fab = document.getElementById('musicFab');
-
-  function setPlayingUI(isPlaying){
-    fab.classList.toggle('is-paused', !isPlaying);
-  }
-
-  function tryAutoplay(){
-    const p = player.play();
-    if(p && p.catch){
-      p.then(function(){ setPlayingUI(true); })
-       .catch(function(){
-          // browser blocked autoplay until the visitor interacts with the page
-          setPlayingUI(false);
-          const startOnce = function(){
-            player.play().then(function(){ setPlayingUI(true); }).catch(function(){});
-            document.removeEventListener('click', startOnce);
-            document.removeEventListener('touchstart', startOnce);
-          };
-          document.addEventListener('click', startOnce);
-          document.addEventListener('touchstart', startOnce);
-       });
-    }
-  }
-
-  player.addEventListener('loadedmetadata', function(){
-    status.textContent = 'now playing, softly, in the background';
-    tryAutoplay();
-  });
-  player.addEventListener('error', function(){
-    status.textContent = 'add the song that reminds you of us';
-    setPlayingUI(false);
-  });
-  player.addEventListener('play', function(){ setPlayingUI(true); });
-  player.addEventListener('pause', function(){ setPlayingUI(false); });
-
-  // if metadata already loaded before this script ran, kick things off now
-  if(player.readyState >= 1){ tryAutoplay(); }
-
-  // floating note toggles play/pause
-  fab.addEventListener('click', function(){
-    if(player.paused){ player.play().catch(function(){}); }
-    else{ player.pause(); }
-  });
-
-  // manual picker still works, and overrides song.mp3 for this visit
-  input.addEventListener('change', function(e){
-    const file = e.target.files[0];
-    if(!file) return;
-    const url = URL.createObjectURL(file);
-    player.src = url;
-    player.load();
-    status.textContent = file.name.replace(/\.[^/.]+$/, '');
-    tryAutoplay();
   });
 })();
